@@ -1,0 +1,13 @@
+
+.services {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  flex-wrap: initial;
+}
+.service {
+  background: aliceblue;
+  margin: 20px;
+  border-radius: 16px;
+  border: 2px solid brown;
+  padding: 10px 0 20px 0;
+}
