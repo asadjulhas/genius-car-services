@@ -5,6 +5,8 @@ import {Routes, Route} from "react-router-dom";
 import Home from './Pages/Home/Home/Home'
 import Login from './Pages/Home/Login/Login'
 import About from './Pages/Home/About/About';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import ServiceDetails from './Pages/ServiceDetails/ServiceDetails';
 
 function App() {
   
@@ -13,8 +15,10 @@ function App() {
       <Header/>
       <Routes>
         <Route path='/' element={<Home />}/>
+        <Route path='home' element={<Home />}/>
         <Route path='/about' element={<About/>}/>
         <Route path='/login' element={<Login />}/>
+        <Route path='/service/:id' element={<ServiceDetails/>}/>
       </Routes>
       <Footer/>
     </div>

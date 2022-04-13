@@ -1,15 +1,24 @@
 import React from 'react';
+import { Button, Col } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 const Service = ({service}) => {
-  const {name, price, description, img} = service;
-  console.log(service)
+  const {id, name, price, description, img} = service;
+
+  const nagivate = useNavigate();
+  const serviceDetails = (id) => {
+    nagivate(`/service/${id}`)
+  }
   return (
-    <div className='service'>
+    <Col>
+      <div className="service">
       <h2>{name}</h2>
       <p>${price}</p>
       <p>{description}</p>
-      <img src={img} alt="" />
-    </div>
+      <img className='img-fluid mb-3' src={img} alt="" />
+      <Button onClick={()=>serviceDetails(id)} className='w-50' variant="info">More info</Button>
+      </div>
+    </Col>
   );
 };
 

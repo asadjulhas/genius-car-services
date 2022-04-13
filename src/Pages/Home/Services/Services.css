@@ -6,8 +6,7 @@
 }
 .service {
   background: aliceblue;
-  margin: 20px;
   border-radius: 16px;
-  border: 2px solid brown;
-  padding: 10px 0 20px 0;
+  border: 1px solid brown;
+  padding: 20px;
 }
