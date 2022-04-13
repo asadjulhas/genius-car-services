@@ -1,22 +1,16 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import './Login.css'
 import { Link } from 'react-router-dom';
 import googleIcon from '../../../images/google.svg'
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-
-  const handleEmail = event => {
-    setEmail(event.target.value);
-  }
-  const handlePassword = event => {
-    setPassword(event.target.value);
-  } 
+  const emailRef = useRef('')
+  const passwordRef = useRef('')
 
   const loginForm = event => {
     event.preventDefault();
+    const email = emailRef.current.value;
+    const password = passwordRef.current.value;
   }
 
   return (
@@ -26,9 +20,9 @@ const Login = () => {
         <h3>Login</h3>
         <form onSubmit={loginForm}>
           <label>Email</label><br />
-          <input onChange={handleEmail} required type="email" /><br />
+          <input ref={emailRef} required type="email" /><br />
           <label>Password</label><br />
-          <input onChange={handlePassword} required type="password" /><br />
+          <input ref={passwordRef} required type="password" /><br />
           <button className='login_btn'>Login</button><br />
           <span>New to Ema-john? <Link to='/register'>Create New Account</Link></span>
           <p>or</p>
