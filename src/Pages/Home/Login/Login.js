@@ -1,19 +1,43 @@
 import React, { useRef, useState } from 'react';
 import './Login.css'
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import googleIcon from '../../../images/google.svg'
+import { useAuthState, useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import auth from '../../../firebase.init';
 
 const Login = () => {
+
+  let navigate = useNavigate();
+  let location = useLocation();
+  let from = location.state?.from?.pathname || "/";
+
+  const [userr] = useAuthState(auth);
+  if(userr) {
+    navigate(from, { replace: true });
+  }
+ 
+  const [
+    signInWithEmailAndPassword,
+    user,
+    loading,
+    error,
+  ] = useSignInWithEmailAndPassword(auth);
+  const [signError, setError] = useState('') 
   const emailRef = useRef('')
-  const passwordRef = useRef('')
+  const passwordRef = useRef('')  
 
   const loginForm = event => {
     event.preventDefault();
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
-    console.log(email, password)
-  }
+    
+    signInWithEmailAndPassword(email, password);
+    if(error) {
+      setError(error?.message)
+    }
 
+  }
+ 
   return (
     <div className='login_page pt-1'>
 
@@ -24,7 +48,10 @@ const Login = () => {
           <input ref={emailRef} required type="email" /><br />
           <label>Password</label><br />
           <input ref={passwordRef} required type="password" /><br />
-          <button className='login_btn'>Login</button><br />
+          <span className='text-danger'>{signError}</span>
+          <button className='login_btn'>
+          {loading ? 'Loading...' : 'Login'}
+            </button><br />
           <span>New to genius-car-services? <Link to='/register'>Create New Account</Link></span>
           <p>or</p>
           <button className='google_signin'><img width={20} src={googleIcon} alt="" /> &nbsp; Continue with Google</button>

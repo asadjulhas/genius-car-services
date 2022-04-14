@@ -4,8 +4,15 @@ import { Container, Nav, Navbar } from 'react-bootstrap';
 import CustomLink from '../../../Customlink/Customlink';
 import logo from '../../../images/logo-black.png'
 import { Link } from 'react-router-dom';
+import auth from '../../../firebase.init';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { signOut } from 'firebase/auth';
 
 const Header = () => {
+  const [user, loading, error] = useAuthState(auth);
+  const logout = () => {
+    signOut(auth);
+  };
   return (
     <div className='menu_area'>
 <Navbar fixed="top" expand="lg">
@@ -27,10 +34,16 @@ const Header = () => {
       <CustomLink to='/'>Home</CustomLink>
         <CustomLink to='/about'>About</CustomLink>
         <CustomLink as={Link} to='home#services'>Services</CustomLink>
-        <CustomLink to='/register'>Register</CustomLink>
-        <CustomLink to='/login'>Login</CustomLink>
+        <CustomLink to='/account'>Account</CustomLink>
+        {user ? '' : <CustomLink to='/register'>Register</CustomLink>}
+        {user ? '' :  <CustomLink to='/login'>Login</CustomLink>}
+        {user ? <Link to='/' onClick={logout}>Logout</Link> : ''}
+        {user ? <div className="user_info">
+      {user?.email}
+    </div> : ''}
       </Nav>
     </Navbar.Collapse>
+    
   </Container>
 </Navbar>
     </div>

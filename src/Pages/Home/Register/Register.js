@@ -1,16 +1,75 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import './Register.css'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import googleIcon from '../../../images/google.svg'
+import auth from '../../../firebase.init';
+import { useAuthState, useCreateUserWithEmailAndPassword, useSendEmailVerification } from 'react-firebase-hooks/auth';
 
 const Register = () => {
+  const loginSuccesss = useNavigate()
+  const [userr] = useAuthState(auth);
+  if(userr) {
+    loginSuccesss('/')
+  }
+ 
+ const [signError, setError] = useState('') 
+  const [
+    createUserWithEmailAndPassword,
+    user,
+    loading,
+    error,
+  ] = useCreateUserWithEmailAndPassword(auth);
+  //Email Verifaction
+  const [sendEmailVerification, sending, errorr] = useSendEmailVerification(auth);
 
+const loginSuccess = useNavigate()
   const signUpForm = (e) => {
     e.preventDefault();
+    setError(error?.message);
     const email = e.target.email.value;
     const password = e.target.password.value;
     const passwordConfirm = e.target.passwordConfirm.value;
-    console.log(email, password, passwordConfirm)
+
+    if(!email) {
+      setError('Please provide a email');
+      return;
+    }
+
+    if(!password) {
+      setError('Please provide a password');
+      return;
+    }
+
+    const validateEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    if(!validateEmail.test(email)) {
+      setError('Please provide a valid email');
+      return;
+    }
+
+    const validatePassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+
+    if(!validatePassword.test(password)) {
+      setError('Password contain minimum eight characters, at least one uppercase letter, one lowercase letter and one number:');
+      return;
+    }
+
+    if(password !== passwordConfirm) {
+      setError('Password not match')
+      return;
+    }
+    createUserWithEmailAndPassword(email, password);
+    sendEmailVerification(email)
+    if(user) {
+      setError('Register Successfully, Login now.');
+    } else (
+      setError(error?.message)
+    )
+    
+  }
+
+  if(user) {
+    loginSuccess('/login')
   }
   return (
     <div className='pt-1'>
@@ -23,7 +82,10 @@ const Register = () => {
           <input name='password' required type="password" /><br />
           <label>Confirm Password</label><br />
           <input name='passwordConfirm' required  type="password" /><br />
-          <button className='login_btn'>Sign Up</button><br />
+          <span className='text-danger'>{signError}</span>
+          <button className='login_btn'>
+            {loading ? 'Loading...' : 'Sign Up'}
+            </button><br />
           <span>Already have an account? <Link to='/login'>Login</Link></span>
           <p>or</p>
           <button className='google_signin'><img width={20} src={googleIcon} alt="" /> &nbsp; Continue with Google</button>

@@ -8,6 +8,8 @@ import About from './Pages/Home/About/About';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ServiceDetails from './Pages/ServiceDetails/ServiceDetails';
 import Register from './Pages/Home/Register/Register';
+import Account from './Pages/Home/Account/Account';
+import RequireAuth from './RequireAuth';
 
 function App() {
   
@@ -21,6 +23,11 @@ function App() {
         <Route path='/register' element={<Register/>} />
         <Route path='/login' element={<Login />}/>
         <Route path='/service/:id' element={<ServiceDetails/>}/>
+        <Route path='/account' element={
+        <RequireAuth>
+        <Account/>
+        </RequireAuth>
+        }/>
       </Routes>
       <Footer/>
     </div>
