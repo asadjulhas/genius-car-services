@@ -11,6 +11,7 @@ const Login = () => {
     event.preventDefault();
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
+    console.log(email, password)
   }
 
   return (
@@ -24,7 +25,7 @@ const Login = () => {
           <label>Password</label><br />
           <input ref={passwordRef} required type="password" /><br />
           <button className='login_btn'>Login</button><br />
-          <span>New to Ema-john? <Link to='/register'>Create New Account</Link></span>
+          <span>New to genius-car-services? <Link to='/register'>Create New Account</Link></span>
           <p>or</p>
           <button className='google_signin'><img width={20} src={googleIcon} alt="" /> &nbsp; Continue with Google</button>
         </form>
