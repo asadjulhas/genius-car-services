@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import googleIcon from '../../../images/google.svg'
 import auth from '../../../firebase.init';
 import { useAuthState, useCreateUserWithEmailAndPassword, useSendEmailVerification, useSignInWithGoogle } from 'react-firebase-hooks/auth';
+import GoogleLogin from '../Login/GoogleLogin';
 
 const Register = () => {
   const loginSuccesss = useNavigate()
@@ -21,12 +22,9 @@ const Register = () => {
   ] = useCreateUserWithEmailAndPassword(auth);
   //Email Verifaction
   const [sendEmailVerification, sending, errorr] = useSendEmailVerification(auth);
+// Google signin hooks
+const googleSignin = GoogleLogin();
 
-  // Sign in with Google
-  const [signInWithGoogle] = useSignInWithGoogle(auth);
-  const signInWithGooglePage = () => {
-    signInWithGoogle();
-  }
 
 const loginSuccess = useNavigate()
   const signUpForm = (e) => {
@@ -95,7 +93,7 @@ const loginSuccess = useNavigate()
           <span>Already have an account? <Link to='/login'>Login</Link></span>
           <p>or</p>
         </form>
-          <button onClick={signInWithGooglePage} className='google_signin'><img width={20} src={googleIcon} alt="" /> &nbsp; Continue with Google</button>
+          <button onClick={googleSignin} className='google_signin'><img width={20} src={googleIcon} alt="" /> &nbsp; Continue with Google</button>
       </div>
     </div>
   );

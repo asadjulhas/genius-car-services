@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import googleIcon from '../../../images/google.svg'
 import { useAuthState, useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import auth from '../../../firebase.init';
+import GoogleLogin from './GoogleLogin';
 
 const Login = () => {
 
@@ -26,11 +27,8 @@ const Login = () => {
   const emailRef = useRef('')
   const passwordRef = useRef('')  
 
-  // Sign in with Google
-  const [signInWithGoogle] = useSignInWithGoogle(auth);
-  const signInWithGooglePage = () => {
-    signInWithGoogle();
-  }
+  // Google signin hooks
+const googleSignin = GoogleLogin();
 
   const loginForm = event => {
     event.preventDefault();
@@ -62,7 +60,7 @@ const Login = () => {
           <span>New to genius-car-services? <Link to='/register'>Create New Account</Link></span>
           <p>or</p>
         </form>
-        <button onClick={signInWithGooglePage} className='google_signin'><img width={20} src={googleIcon} alt="" /> &nbsp; Continue with Google</button>
+        <button onClick={googleSignin} className='google_signin'><img width={20} src={googleIcon} alt="" /> &nbsp; Continue with Google</button>
       </div>
       
     </div>

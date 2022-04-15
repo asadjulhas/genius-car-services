@@ -14,3 +14,7 @@
 .menu_area {
 	margin-bottom: 56px;
 }
+.user_info img {
+	width: 33px;
+	border-radius: 50%;
+}
