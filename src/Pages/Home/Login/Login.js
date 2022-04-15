@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import './Login.css'
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import googleIcon from '../../../images/google.svg'
-import { useAuthState, useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { useAuthState, useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import auth from '../../../firebase.init';
 
 const Login = () => {
@@ -26,6 +26,12 @@ const Login = () => {
   const emailRef = useRef('')
   const passwordRef = useRef('')  
 
+  // Sign in with Google
+  const [signInWithGoogle] = useSignInWithGoogle(auth);
+  const signInWithGooglePage = () => {
+    signInWithGoogle();
+  }
+
   const loginForm = event => {
     event.preventDefault();
     const email = emailRef.current.value;
@@ -35,6 +41,7 @@ const Login = () => {
     if(error) {
       setError(error?.message)
     }
+
 
   }
  
@@ -54,8 +61,8 @@ const Login = () => {
             </button><br />
           <span>New to genius-car-services? <Link to='/register'>Create New Account</Link></span>
           <p>or</p>
-          <button className='google_signin'><img width={20} src={googleIcon} alt="" /> &nbsp; Continue with Google</button>
         </form>
+        <button onClick={signInWithGooglePage} className='google_signin'><img width={20} src={googleIcon} alt="" /> &nbsp; Continue with Google</button>
       </div>
       
     </div>
