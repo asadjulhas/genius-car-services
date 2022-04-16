@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import auth from '../../../firebase.init';
 import { useAuthState, useCreateUserWithEmailAndPassword, useSendEmailVerification, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import GoogleLogin from '../Login/GoogleLogin';
+import { Form } from 'react-bootstrap';
 
 const Register = () => {
   const loginSuccesss = useNavigate()
@@ -30,6 +31,7 @@ const loginSuccess = useNavigate()
     const email = e.target.email.value;
     const password = e.target.password.value;
     const passwordConfirm = e.target.passwordConfirm.value;
+    const terms = e.target.terms.checked;
 
     if(!email) {
       setError('Please provide a email');
@@ -59,6 +61,10 @@ const loginSuccess = useNavigate()
       setError('Password not match')
       return;
     }
+    if(!terms) {
+      setError('Accept with our terms and conditions');
+      return;
+    }
     createUserWithEmailAndPassword(email, password);
     sendEmailVerification(email)
     if(user) {
@@ -83,6 +89,9 @@ const loginSuccess = useNavigate()
           <input name='password' required type="password" /><br />
           <label>Confirm Password</label><br />
           <input name='passwordConfirm' required  type="password" /><br />
+          <Form.Group name='terms' className="mb-3" controlId="terms">
+    <Form.Check type="checkbox" label="Accept with our terms and conditions" />
+  </Form.Group>
           <span className='text-danger'>{signError}</span>
           <button className='login_btn'>
             {loading ? 'Loading...' : 'Sign Up'}

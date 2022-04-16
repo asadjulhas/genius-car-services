@@ -36,13 +36,26 @@ form label {
   margin-left: 41px;
   margin-bottom: 12px;
 }
-.login_form input {
+.login_form input:not([type=checkbox]) {
   border: 1px solid rgba(149, 160, 167, 1);
   border-radius: 5px;
   width: 365px;
   height: 44px;
   padding-left: 15px;
   margin-bottom: 19px;
+}
+.login_form input[type="checkbox"] {
+	border-radius: 3px;
+	width: 15px;
+	height: 15px;
+	padding-left: 0;
+	margin-left: 19px;
+	display: inline-block;
+}
+
+.form-check-label {
+  width: auto;
+  display: block;
 }
 .login_btn {
   background: rgba(255, 153, 0, 0.3);
@@ -86,4 +99,8 @@ form label {
   border-radius: 5px;
   cursor: pointer;
   margin-left: 36px;
+}
+form span {
+	display: block;
+	padding: 0 24px;
 }
