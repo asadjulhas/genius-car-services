@@ -19,3 +19,14 @@
 .success_message {
   color: green !important;
 }
+.not_accept.form-check input {
+	border: 1px solid #f00;
+}
+.accept.form-check input {
+	border: 1px solid green;
+}
+
+button:disabled, button[disabled] {
+	background: #bfaaaa7d;
+	cursor: default;
+}

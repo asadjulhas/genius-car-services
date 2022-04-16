@@ -7,6 +7,9 @@ import GoogleLogin from '../Login/GoogleLogin';
 import { Form } from 'react-bootstrap';
 
 const Register = () => {
+  // Checkbox state
+  const[agree, setAgree] = useState(false)
+
   const loginSuccesss = useNavigate()
   const [userr] = useAuthState(auth);
   if(userr) {
@@ -31,7 +34,6 @@ const loginSuccess = useNavigate()
     const email = e.target.email.value;
     const password = e.target.password.value;
     const passwordConfirm = e.target.passwordConfirm.value;
-    const terms = e.target.terms.checked;
 
     if(!email) {
       setError('Please provide a email');
@@ -61,7 +63,7 @@ const loginSuccess = useNavigate()
       setError('Password not match')
       return;
     }
-    if(!terms) {
+    if(!agree) {
       setError('Accept with our terms and conditions');
       return;
     }
@@ -89,9 +91,8 @@ const loginSuccess = useNavigate()
           <input name='password' required type="password" /><br />
           <label>Confirm Password</label><br />
           <input name='passwordConfirm' required  type="password" /><br />
-          <Form.Group name='terms' className="mb-3" controlId="terms">
-    <Form.Check type="checkbox" label="Accept with our terms and conditions" />
-  </Form.Group>
+          <input onClick={()=> setAgree(!agree)}  type="checkbox" name="terms" id="terms" />
+          <label className={agree ? 'text-success' : 'text-danger'} htmlFor="terms">Accept with our terms and conditions</label>
           <span className='text-danger'>{signError}</span>
           <button className='login_btn'>
             {loading ? 'Loading...' : 'Sign Up'}
