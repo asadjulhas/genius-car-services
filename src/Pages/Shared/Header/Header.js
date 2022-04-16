@@ -39,7 +39,7 @@ const Header = () => {
         {user ? '' :  <CustomLink to='/login'>Login</CustomLink>}
         {user ? <Link to='/' onClick={logout}>Logout</Link> : ''}
         {user ? <div className="user_info">
-      {user?.photoURL ? <img src={user?.photoURL} alt={user?.displayName} title={user?.displayName} /> : user?.email}
+      {user?.photoURL ? <img src={user?.photoURL} alt={user?.displayName} title={user?.displayName} /> : user?.displayName || user?.email}
     </div> : ''}
       </Nav>
     </Navbar.Collapse>

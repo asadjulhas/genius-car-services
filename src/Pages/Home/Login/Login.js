@@ -1,9 +1,12 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import './Login.css'
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuthState, useSendPasswordResetEmail, useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import auth from '../../../firebase.init';
 import GoogleLogin from './GoogleLogin';
+import { Spinner } from 'react-bootstrap';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
   let errorElement;
@@ -22,7 +25,6 @@ const Login = () => {
     loading,
     error,
   ] = useSignInWithEmailAndPassword(auth);
-  const [signError, setError] = useState('') 
   const emailRef = useRef('')
   const passwordRef = useRef('')  
 
@@ -35,13 +37,19 @@ const Login = () => {
   }
  
   // Forget Password
-    const email = emailRef.current.value;
     const [sendPasswordResetEmail, sending, error2] = useSendPasswordResetEmail(auth);
 
     const SendPasswordReset =async () => {
       const email = emailRef.current.value;
+     if(email) {
       await sendPasswordResetEmail(email);
-          alert('Sent email');
+      console.log(error2)
+      if(!error2) {
+        toast('Reset Password email sent.');
+      }
+     } else {
+      toast('Please provide a email');
+     }
     }
    
     if(error || error2) {
@@ -62,12 +70,12 @@ const Login = () => {
           <input ref={passwordRef} required type="password" /><br />
           {errorElement}
           <button className='login_btn'>
-          {loading ? 'Loading...' : 'Login'}
+          {loading ? <Spinner animation="border" variant="success" /> : 'Login'}
             </button><br />
           <span>New to genius-car-services? <Link to='/register'>Create New Account</Link></span>
           <p className='m-0'>or</p>
         </form>
-        
+        <ToastContainer />
         <button className='btn-warning btn-sm mb-2' onClick={SendPasswordReset}>Reset password</button><br />
         <GoogleLogin/>
       </div>

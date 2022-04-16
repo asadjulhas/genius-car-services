@@ -1,10 +1,10 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import './Register.css'
 import { Link, useNavigate } from 'react-router-dom';
 import auth from '../../../firebase.init';
-import { useAuthState, useCreateUserWithEmailAndPassword, useSendEmailVerification, useSignInWithGoogle } from 'react-firebase-hooks/auth';
+import { useAuthState, useCreateUserWithEmailAndPassword, useSendEmailVerification, useSignInWithGoogle, useUpdateProfile } from 'react-firebase-hooks/auth';
 import GoogleLogin from '../Login/GoogleLogin';
-import { Form } from 'react-bootstrap';
+import { Spinner } from 'react-bootstrap';
 
 const Register = () => {
   // Checkbox state
@@ -12,9 +12,7 @@ const Register = () => {
 
   const loginSuccesss = useNavigate()
   const [userr] = useAuthState(auth);
-  if(userr) {
-    loginSuccesss('/')
-  }
+
  
  const [signError, setError] = useState('') 
   const [
@@ -22,18 +20,22 @@ const Register = () => {
     user,
     loading,
     error,
-  ] = useCreateUserWithEmailAndPassword(auth);
-  //Email Verifaction
-  const [sendEmailVerification, sending, errorr] = useSendEmailVerification(auth);
+  ] = useCreateUserWithEmailAndPassword(auth, {sendEmailVerification: true});
 
-
+  const [updateProfile, updating, error2] = useUpdateProfile(auth);
 const loginSuccess = useNavigate()
-  const signUpForm = (e) => {
+  const signUpForm =async (e) => {
     e.preventDefault();
     setError(error?.message);
+    const userName = e.target.name.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
     const passwordConfirm = e.target.passwordConfirm.value;
+
+    if(!userName) {
+      setError('Please provide a name');
+      return;
+    }
 
     if(!email) {
       setError('Please provide a email');
@@ -67,8 +69,10 @@ const loginSuccess = useNavigate()
       setError('Accept with our terms and conditions');
       return;
     }
-    createUserWithEmailAndPassword(email, password);
-    sendEmailVerification(email)
+    await createUserWithEmailAndPassword(email, password);
+    await updateProfile({ displayName: userName });
+          alert('Updated profile');
+          loginSuccess('/')
     if(user) {
       setError('Register Successfully, Login now.');
     } else (
@@ -77,14 +81,14 @@ const loginSuccess = useNavigate()
     
   }
 
-  if(user) {
-    loginSuccess('/login')
-  }
+ 
   return (
     <div className='pt-1'>
        <div className="login_form signup">
         <h3>Sign Up</h3>
         <form onSubmit={signUpForm}>
+          <label>Name</label><br />
+          <input name='name' required type="text" /><br />
           <label>Email</label><br />
           <input name='email' required type="email" /><br />
           <label>Password</label><br />
@@ -95,7 +99,7 @@ const loginSuccess = useNavigate()
           <label className={agree ? 'text-success' : 'text-danger'} htmlFor="terms">Accept with our terms and conditions</label>
           <span className='text-danger'>{signError}</span>
           <button disabled={!agree} className='login_btn'>
-            {loading ? 'Loading...' : 'Sign Up'}
+            {loading ? <Spinner animation="border" variant="success" /> : 'Sign Up'}
             </button><br />
           <span>Already have an account? <Link to='/login'>Login</Link></span>
           <p>or</p>

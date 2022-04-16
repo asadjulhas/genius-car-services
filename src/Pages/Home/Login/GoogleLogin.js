@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Spinner } from 'react-bootstrap';
 import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import auth from '../../../firebase.init';
 import googleIcon from '../../../images/google.svg'
@@ -13,7 +14,7 @@ const GoogleLogin = () => {
     return (
       <div>
         <span className='text-danger'>{error?.message}</span>
-        <button onClick={signInWithGooglePage} className='google_signin'><img width={20} src={googleIcon} alt="" /> &nbsp; {loading ? 'Please wait...' : 'Continue with Google'}</button>
+        <button onClick={signInWithGooglePage} className='google_signin'><img width={20} src={googleIcon} alt="" /> &nbsp; {loading ? <Spinner animation="border" variant="success" /> : 'Continue with Google'}</button>
       </div>
     );
 };
