@@ -94,7 +94,7 @@ const loginSuccess = useNavigate()
           <input onClick={()=> setAgree(!agree)}  type="checkbox" name="terms" id="terms" />
           <label className={agree ? 'text-success' : 'text-danger'} htmlFor="terms">Accept with our terms and conditions</label>
           <span className='text-danger'>{signError}</span>
-          <button className='login_btn'>
+          <button disabled={!agree} className='login_btn'>
             {loading ? 'Loading...' : 'Sign Up'}
             </button><br />
           <span>Already have an account? <Link to='/login'>Login</Link></span>
