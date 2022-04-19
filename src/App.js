@@ -1,7 +1,7 @@
 import './App.css';
 import Header from "./Pages/Shared/Header/Header";
 import Footer from './Pages/Shared/Footer/Footer';
-import {Routes, Route} from "react-router-dom";
+import {Routes, Route, useLocation} from "react-router-dom";
 import Home from './Pages/Home/Home/Home'
 import Login from './Pages/Home/Login/Login'
 import About from './Pages/Home/About/About';
@@ -10,6 +10,8 @@ import ServiceDetails from './Pages/ServiceDetails/ServiceDetails';
 import Register from './Pages/Home/Register/Register';
 import Account from './Pages/Home/Account/Account';
 import RequireAuth from './RequireAuth';
+
+
 
 function App() {
   
@@ -22,7 +24,11 @@ function App() {
         <Route path='/about' element={<About/>}/>
         <Route path='/register' element={<Register/>} />
         <Route path='/login' element={<Login />}/>
-        <Route path='/service/:id' element={<ServiceDetails/>}/>
+        <Route path='/service/:id' element={
+          <RequireAuth>
+        <ServiceDetails/>
+        </RequireAuth>
+        }/>
         <Route path='/account' element={
         <RequireAuth>
         <Account/>

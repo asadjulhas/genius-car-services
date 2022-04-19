@@ -4,10 +4,12 @@ import Services from '../Services/Services';
 import slider1 from '../../../images/banner/banner1.jpg'
 import slider2 from '../../../images/banner/banner2.jpg'
 import slider3 from '../../../images/banner/banner3.jpg'
+import PageTitle from '../../../hooks/PageTitle';
 
 const Home = () => {
   return (
     <div>
+      <PageTitle title='Home'></PageTitle>
       <div className="slider_area">
       <Carousel fade>
   <Carousel.Item>
