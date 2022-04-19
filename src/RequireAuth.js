@@ -1,6 +1,8 @@
 import { sendEmailVerification } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
+import './RequireAuth.css'
 import { Navigate, useLocation } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 import auth from "./firebase.init";
 import Loading from "./Pages/Home/Login/Loading/Loading";
 
@@ -19,7 +21,7 @@ function RequireAuth({ children }) {
   const sendVerifactionEmail = () => {
     sendEmailVerification(auth.currentUser)
     .then(()=>{
-      alert('Email verification sent!')
+      toast('Email verification sent!')
     })
   }
 
@@ -32,11 +34,14 @@ function RequireAuth({ children }) {
   }
   if(!user.emailVerified) {
     return(
-      <div className="verified_email">
-        <h2 className="text-danger">
-          Please Verify your email;
+      <div className="mt-5 d-block">
+        <div className="verified_email py-5 px-4 bg-warning w-50 mx-auto rounded">
+        <h2 className="text-danger mb-3">
+          Please Verify your email
         </h2>
-          <button onClick={sendVerifactionEmail} className="btn btn-info">Send Verification Email</button>
+          <button onClick={sendVerifactionEmail} className="btn btn-success">Send Verification Email</button>
+          <ToastContainer/>
+      </div>
       </div>
     )
   }

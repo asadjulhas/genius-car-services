@@ -71,7 +71,6 @@ const loginSuccess = useNavigate()
     }
     await createUserWithEmailAndPassword(email, password);
     await updateProfile({ displayName: userName });
-          alert('Updated profile');
           loginSuccess('/')
     if(user) {
       setError('Register Successfully, Login now.');
